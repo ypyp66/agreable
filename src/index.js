@@ -1,11 +1,12 @@
-import GlobalStyle from "GlobalStyle";
 import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import theme from "Style/theme";
 import Routes from "Routes";
+import GlobalStyle from "Style/GlobalStyle";
 import reportWebVitals from "./reportWebVitals";
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -16,10 +17,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
-    <GlobalStyle />
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </ThemeProvider>
   </QueryClientProvider>,
   document.getElementById("root")
 );

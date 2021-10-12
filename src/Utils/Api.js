@@ -18,8 +18,8 @@ export const getLists = async (page) => {
     );
 
     console.log("getLists");
-    console.log(result.data);
 
+    //return { data: result.data, page: page + 1 };
     return result.data;
   } catch (e) {
     return e;
