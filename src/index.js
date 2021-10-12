@@ -1,3 +1,4 @@
+import GlobalStyle from "GlobalStyle";
 import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -5,10 +6,17 @@ import { BrowserRouter } from "react-router-dom";
 import Routes from "Routes";
 import reportWebVitals from "./reportWebVitals";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
+    <GlobalStyle />
     <BrowserRouter>
       <Routes />
     </BrowserRouter>
