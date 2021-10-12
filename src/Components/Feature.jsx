@@ -8,6 +8,7 @@ import { FEATURE_URL } from "Constants/Feature";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useMediaQuery } from "react-responsive";
 
 const settings = {
   dots: true,
@@ -21,6 +22,7 @@ const settings = {
 
 function Feature() {
   const { isLoading, error, data } = useQuery("features", () => getFeatures());
+  const isMobile = useMediaQuery({ query: "(min-width:900px)" });
 
   return (
     <Container>
@@ -32,9 +34,10 @@ function Feature() {
             {data.map((feature, index) => (
               <img
                 key={index}
-                src={`${FEATURE_URL}${feature.image}`}
+                src={`${FEATURE_URL}${
+                  isMobile ? feature.image : feature.mobileImage
+                }`}
                 alt="LOGO"
-                width="1200px"
               />
             ))}
           </Slider>
@@ -50,10 +53,14 @@ export default Feature;
 const Container = styled.article`
   display: flex;
   justify-content: center;
-
+  width: 100%;
   margin-bottom: 40px;
 `;
 
 const Inner = styled.div`
   width: 1200px;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
 `;

@@ -1,20 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import useLocalStorage from "Hooks/useLocalStorage";
 
 function Header() {
+  const [cartStates, _] = useLocalStorage("cart");
+
+  const totalLength = () => {
+    return cartStates.length;
+  };
+
   return (
-    <nav>
+    <header>
       <Cart>
-        <Link to="/cart">장바구니</Link>
+        <Link to="/cart">
+          <Amount>{totalLength()}</Amount> 장바구니
+        </Link>
       </Cart>
       <IMG>
-        <img
-          src="https://image.wingeat.com/logo/images/we_logo_center.png"
-          alt="LOGO"
-        />
+        <Link to="/">
+          <img
+            src="https://image.wingeat.com/logo/images/we_logo_center.png"
+            alt="LOGO"
+          />
+        </Link>
       </IMG>
-    </nav>
+    </header>
   );
 }
 
@@ -32,4 +43,12 @@ const IMG = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px 0;
+`;
+
+const Amount = styled.span`
+  border-radius: 50px;
+  padding: 2px 5px;
+
+  background-color: red;
+  color: white;
 `;
