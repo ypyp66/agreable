@@ -1,36 +1,24 @@
-import useLocalStorage from "Hooks/useLocalStorage";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { getLists } from "Utils/Api";
+import { addCart } from "Modules/cart";
 import FetchMore from "./FetchMore";
 import ListItem from "./ListItem";
+import { toggleToast } from "Modules/toast";
 
 function Lists() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
-
   const [error, setError] = useState(false);
   const [isLast, setIsLast] = useState(false);
-  const [cartStates, setCartStates] = useLocalStorage("cart");
 
-  const handleAdd = (data) => {
-    const check = cartStates.filter((item) => item.id === data.id).length > 0;
+  const dispatch = useDispatch();
 
-    if (check) {
-      alert("이미 장바구니에 있습니다. 수량을 증가합니다.");
-      setCartStates(
-        cartStates.map((item) =>
-          item.id === data.id ? { ...item, amount: item.amount + 1 } : item
-        )
-      );
-      return;
-    }
-
-    data.amount = 1;
-    data.isChecked = true;
-
-    setCartStates(cartStates.concat(data));
-  };
+  const handleAdd = useCallback((data) => {
+    dispatch(addCart(data));
+    dispatch(toggleToast());
+  }, []);
 
   useEffect(() => {
     if (isLast) return;

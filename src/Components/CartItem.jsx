@@ -1,6 +1,6 @@
 import React from "react";
-import { ITEM_URL } from "Constants/ListItem";
 import styled from "styled-components";
+import { IMAGE_BASE_URL } from "Constants/Image";
 
 function CartItem(props) {
   const { id, itemName, image, price, amount, isChecked } = props.data;
@@ -21,7 +21,7 @@ function CartItem(props) {
       </Title>
 
       <Item>
-        <img src={`${ITEM_URL}${image}`} alt="itemImage" width="100px" />
+        <IMG src={`${IMAGE_BASE_URL}${image}`} alt="itemImage" width="100px" />
         <div>
           <h3>{price}원</h3>
           <button onClick={() => handleIncrease(id)}>➕</button>
@@ -59,8 +59,8 @@ const Title = styled.div`
 
 const Item = styled.div`
   display: flex;
+`;
 
-  img {
-    margin-right: 10px;
-  }
+const IMG = styled.img`
+  margin-right: 10px;
 `;

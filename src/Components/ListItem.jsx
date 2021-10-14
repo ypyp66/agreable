@@ -1,15 +1,15 @@
 import React from "react";
-import { ITEM_URL } from "Constants/ListItem";
 import styled from "styled-components";
+import { IMAGE_BASE_URL } from "Constants/Image";
 
 function ListItem(props) {
-  const { id, itemName, price, image } = props.data;
+  const { itemName, price, image } = props.data;
   const { handleAdd } = props;
 
   return (
     <Container>
       <img
-        src={`${ITEM_URL}${image}`}
+        src={IMAGE_BASE_URL + image}
         alt="itemImage"
         width={"100%"}
         onClick={() => handleAdd(props.data)}
@@ -31,7 +31,5 @@ const Container = styled.div`
 
   justify-content: center;
   align-items: center;
-
-  @media ${(props) => props.theme.tablet} {
-  }
+  justify-items: center;
 `;

@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import Slider from "react-slick";
+import { useMediaQuery } from "react-responsive";
 
 import { getFeatures } from "Utils/Api";
-import { FEATURE_URL } from "Constants/Feature";
+import { IMAGE_BASE_URL } from "Constants/Image";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useMediaQuery } from "react-responsive";
 
 const settings = {
   dots: true,
@@ -34,7 +34,7 @@ function Feature() {
             {data.map((feature, index) => (
               <img
                 key={index}
-                src={`${FEATURE_URL}${
+                src={`${IMAGE_BASE_URL}${
                   isMobile ? feature.image : feature.mobileImage
                 }`}
                 alt="LOGO"

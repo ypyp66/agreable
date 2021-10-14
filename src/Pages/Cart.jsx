@@ -1,90 +1,81 @@
-import CartItem from "Components/CartItem";
-import useLocalStorage from "Hooks/useLocalStorage";
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
+import CartItem from "Components/CartItem";
+import {
+  decreaseAmount,
+  increaseAmount,
+  removeCart,
+  toggleCart,
+} from "Modules/cart";
 
 function Cart() {
-  const [cartStates, setCartStates] = useLocalStorage("cart");
+  const cartStates = useSelector((state) => state.cart);
   const isMobile = useMediaQuery({ query: "(min-width:900px)" });
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(cartStates);
-  }, [cartStates]);
+  const handleToggle = useCallback((id) => {
+    dispatch(toggleCart(id));
+  }, []);
 
-  const handleToggle = (id) => {
-    const result = cartStates.map((item) =>
-      item.id === id ? { ...item, isChecked: !item.isChecked } : item
-    );
-    setCartStates(result);
-  };
+  const handleRemove = useCallback((id) => {
+    dispatch(removeCart(id));
+  }, []);
 
-  const handleRemove = (id) => {
-    const result = cartStates.filter((item) => item.id !== id);
-    setCartStates(result);
-  };
+  const handleIncrease = useCallback((id) => {
+    dispatch(increaseAmount(id));
+  }, []);
 
-  const handleIncrease = (id) => {
-    const result = cartStates.map((item) =>
-      item.id === id ? { ...item, amount: item.amount + 1 } : item
-    );
-    setCartStates(result);
-  };
+  const handleDecrease = useCallback((id) => {
+    dispatch(decreaseAmount(id));
+  }, []);
 
-  const handleDecrease = (id) => {
-    const result = cartStates.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            amount: item.amount - 1,
-          }
-        : item
-    );
-    setCartStates(result);
-  };
-
-  const totalPrice = () => {
-    const result = cartStates.reduce((acc, cur) => {
+  const totalPrice = useCallback((carts) => {
+    const result = carts.reduce((acc, cur) => {
       if (!cur.isChecked) return acc;
       return acc + cur.price * cur.amount;
     }, 0);
 
     return result;
-  };
+  }, []);
 
   return (
     <>
-      <h3>장바구니</h3>
       <Container>
-        <ItemLists>
-          {cartStates.length === 0 && <div>Nothing Better</div>}
-          {cartStates.length > 0 &&
-            cartStates.map((cart) => (
-              <CartItem
-                key={cart.id}
-                data={cart}
-                handleToggle={handleToggle}
-                handleRemove={handleRemove}
-                handleIncrease={handleIncrease}
-                handleDecrease={handleDecrease}
-              />
-            ))}
-        </ItemLists>
-        {isMobile && (
-          <Purchase>
-            <div>
-              <h4>결제 예정 금액 </h4>
-              <h3>{totalPrice()}원</h3>
-            </div>
-            <button>결제하기</button>
-          </Purchase>
-        )}
+        <h3>장바구니</h3>
+        <Inner>
+          <ItemLists>
+            {cartStates.length === 0 && <div>장바구니가 비었습니다</div>}
+            {cartStates.length > 0 &&
+              cartStates.map((cart) => (
+                <CartItem
+                  key={cart.id}
+                  data={cart}
+                  handleToggle={handleToggle}
+                  handleRemove={handleRemove}
+                  handleIncrease={handleIncrease}
+                  handleDecrease={handleDecrease}
+                />
+              ))}
+          </ItemLists>
+          {isMobile && (
+            <Purchase>
+              <div>
+                <h4>결제 예정 금액 </h4>
+                <h3>{totalPrice(cartStates)}원</h3>
+              </div>
+              <button>결제하기</button>
+            </Purchase>
+          )}
+        </Inner>
       </Container>
       {!isMobile && (
         <Purchase>
           <div>
             <h4>결제 예정 금액 </h4>
-            <h3>{totalPrice()}원</h3>
+            <h3>{totalPrice(cartStates)}원</h3>
           </div>
           <button>결제하기</button>
         </Purchase>
@@ -96,13 +87,23 @@ function Cart() {
 export default React.memo(Cart);
 
 const Container = styled.main`
-  width: 100%;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Inner = styled.div`
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
   margin-top: 10px;
 
   @media ${(props) => props.theme.tablet} {
+    width: 100vw;
+    grid-template-columns: repeat(2, 40%);
     padding-bottom: 160px;
   }
 `;
