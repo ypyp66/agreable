@@ -29,7 +29,7 @@ function CartItem(props) {
             {amount}
             <button
               onClick={() => {
-                if (amount === 0) return;
+                if (amount === 1) return;
                 handleDecrease(id);
               }}
             >
