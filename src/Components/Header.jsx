@@ -1,20 +1,17 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import useLocalStorage from "Hooks/useLocalStorage";
 
 function Header() {
-  const [cartStates, _] = useLocalStorage("cart");
-
-  const totalLength = () => {
-    return cartStates.length;
-  };
+  const cartStates = useSelector((state) => state.cart);
+  const length = useMemo(() => cartStates.length, [cartStates]);
 
   return (
     <header>
       <Cart>
         <Link to="/cart">
-          <Amount>{totalLength()}</Amount> 장바구니
+          <Amount>{length}</Amount> 장바구니
         </Link>
       </Cart>
       <IMG>
@@ -29,7 +26,7 @@ function Header() {
   );
 }
 
-export default Header;
+export default React.memo(Header);
 
 const Cart = styled.div`
   width: 100%;

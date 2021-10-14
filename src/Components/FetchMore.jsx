@@ -17,7 +17,7 @@ function FetchMore({ setPage }) {
     };
   }, [observer]);
 
-  return <div ref={observableTrigger} style={{ marginTop: "-5px" }} />;
+  return <div ref={observableTrigger} style={{ marginTop: "-1px" }} />;
 }
 
 export default FetchMore;
