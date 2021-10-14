@@ -2,6 +2,9 @@
 
 ## wingeat 구현하기
 
+### 배포 주소
+- https://hopeful-mclean-bbe2ca.netlify.app
+
 ### 구현 기능
 
 **- 메인 페이지**
