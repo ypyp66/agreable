@@ -22,7 +22,7 @@ const settings = {
 
 function Feature() {
   const { isLoading, error, data } = useQuery("features", () => getFeatures());
-  const isMobile = useMediaQuery({ query: "(min-width:900px)" });
+  const isMobile = useMediaQuery({ query: "(max-width:900px)" });
 
   return (
     <Container>
@@ -35,7 +35,7 @@ function Feature() {
               <img
                 key={index}
                 src={`${IMAGE_BASE_URL}${
-                  isMobile ? feature.image : feature.mobileImage
+                  isMobile ? feature.mobileImage : feature.image
                 }`}
                 alt="LOGO"
               />

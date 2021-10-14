@@ -23,17 +23,19 @@ function CartItem(props) {
       <Item>
         <IMG src={`${IMAGE_BASE_URL}${image}`} alt="itemImage" width="100px" />
         <div>
-          <h3>{price}원</h3>
-          <button onClick={() => handleIncrease(id)}>➕</button>
-          {amount}
-          <button
-            onClick={() => {
-              if (amount === 0) return;
-              handleDecrease(id);
-            }}
-          >
-            ➖
-          </button>
+          <Price>{price}원</Price>
+          <div>
+            <button onClick={() => handleIncrease(id)}>➕</button>
+            {amount}
+            <button
+              onClick={() => {
+                if (amount === 0) return;
+                handleDecrease(id);
+              }}
+            >
+              ➖
+            </button>
+          </div>
         </div>
       </Item>
     </Container>
@@ -43,9 +45,9 @@ function CartItem(props) {
 export default React.memo(CartItem);
 
 const Container = styled.div`
-  border: 1px solid black;
   width: 100%;
   padding: 10px;
+  border: 1px solid #e3e3e3;
 
   label {
     display: flex;
@@ -59,8 +61,26 @@ const Title = styled.div`
 
 const Item = styled.div`
   display: flex;
+
+  > div {
+    @media ${(props) => props.theme.tablet} {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 `;
 
 const IMG = styled.img`
   margin-right: 10px;
+`;
+
+const Price = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+
+  @media ${(props) => props.theme.tablet} {
+    font-size: 14px;
+  }
 `;

@@ -54,7 +54,7 @@ export default function cart(state = initialState_, action) {
         item.id === action.payload
           ? {
               ...item,
-              amount: item.amount - 1 >= 0 ? item.amount - 1 : item.amount,
+              amount: item.amount - 1 >= 1 ? item.amount - 1 : item.amount,
             }
           : item
       );

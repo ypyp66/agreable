@@ -45,6 +45,7 @@ function Lists() {
   return (
     <>
       <Container>
+        <Title>윙잇 MADE</Title>
         {data.length > 0 && (
           <Inner>
             {data.map((list) => (
@@ -68,12 +69,18 @@ export default React.memo(Lists);
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   @media ${(props) => props.theme.tablet} {
     width: 100%;
     align-items: center;
   }
+`;
+
+const Title = styled.h1`
+  margin: 50px 0px;
 `;
 
 const Inner = styled.div`
